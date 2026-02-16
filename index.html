@@ -9,16 +9,17 @@
     <style>
         :root { 
             --bg: #ffffff; --text: #000000; --sub: #6e6e73; --border: #e5e5e7; --panel: #f6f6f7; 
-            --accent: #007aff;
         }
         [data-theme="dark"] { 
             --bg: #000000; --text: #ffffff; --sub: #9a9aa1; --border: #1c1c1e; --panel: #111111; 
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
         body { 
             font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); 
-            padding: 24px; transition: background-color 0.15s ease;
+            padding: 24px; transition: background-color 0.1s ease;
+            will-change: background-color;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -28,28 +29,31 @@
         .subline { color: var(--sub); font-size: 15px; margin-top: 4px; }
 
         .side-actions { display: flex; flex-direction: column; gap: 12px; }
-        .icon-btn { 
+        
+        /* HAPTIC BUTTON EFFECT */
+        .icon-btn, .action-btn { 
             background: var(--panel); border: 1px solid var(--border); 
             border-radius: 50%; width: 44px; height: 44px; 
             display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: transform 0.1s ease;
+            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .icon-btn:active { transform: scale(0.92); }
+        .icon-btn:active, .action-btn:active { 
+            transform: scale(0.92); 
+        }
+
         .icon-btn svg { width: 20px; height: 20px; stroke: var(--text); stroke-width: 2; fill: none; }
 
         .input-group { margin-bottom: 20px; }
         label { display: block; font-size: 11px; text-transform: uppercase; color: var(--sub); margin-bottom: 8px; font-weight: 700; letter-spacing: 0.05em; }
         input { 
             width: 100%; padding: 16px; border-radius: 14px; border: 1px solid var(--border); 
-            background: var(--panel); color: var(--text); font-size: 16px; outline: none; 
-            transition: border-color 0.2s;
+            background: var(--panel); color: var(--text); font-size: 16px; outline: none;
         }
-        input:focus { border-color: var(--sub); }
 
         .result-card { 
             background: var(--panel); border-radius: 20px; padding: 24px; 
             margin-top: 24px; border: 1px solid var(--border);
-            display: none; /* Hidden by default */
+            display: none;
         }
         .summary-text { font-weight: 600; font-size: 19px; margin-bottom: 16px; }
         .steps-container { max-height: 280px; overflow-y: auto; font-family: ui-monospace, monospace; font-size: 14px; border-top: 1px solid var(--border); padding-top: 16px; }
@@ -57,18 +61,15 @@
 
         .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
         .action-btn {
-            padding: 14px; border-radius: 12px; border: 1px solid var(--border);
-            background: var(--bg); color: var(--text); font-size: 14px; font-weight: 600;
-            cursor: pointer; transition: all 0.1s ease;
-            display: flex; align-items: center; justify-content: center;
+            width: 100%; height: auto; padding: 14px; border-radius: 12px;
+            background: var(--bg); font-size: 14px; font-weight: 600;
         }
-        .action-btn:active { transform: scale(0.96); background: var(--border); }
-        
-        /* Toast notification for copy */
+
         #toast {
             position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
-            background: #323232; color: white; padding: 12px 24px; border-radius: 25px;
-            font-size: 14px; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 100;
+            background: rgba(50, 50, 50, 0.95); color: white; padding: 12px 24px; border-radius: 25px;
+            font-size: 14px; opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 100;
+            backdrop-filter: blur(8px);
         }
     </style>
 </head>
@@ -77,7 +78,7 @@
         <div class="header">
             <div>
                 <h1>How Many Steps to Reach $1,000,000?</h1>
-                <p class="subline">Calculate the exact number of growth multiplications needed.</p>
+                <p class="subline">Calculate exact growth multiplications.</p>
             </div>
             <div class="side-actions">
                 <div class="icon-btn" id="theme-btn"></div>
@@ -87,14 +88,13 @@
             </div>
         </div>
 
-        <div class="input-group"><label>Starting Amount ($)</label><input type="text" id="start" placeholder="e.g. 25"></div>
-        <div class="input-group"><label>Multiplier (x)</label><input type="number" id="multiplier" placeholder="e.g. 3" step="any"></div>
-        <div class="input-group"><label>Target Amount ($)</label><input type="text" id="target" placeholder="e.g. 1,000,000"></div>
+        <div class="input-group"><label>Starting Amount ($)</label><input type="text" id="start" placeholder="$25.00"></div>
+        <div class="input-group"><label>Multiplier (x)</label><input type="number" id="multiplier" placeholder="3"></div>
+        <div class="input-group"><label>Target Amount ($)</label><input type="text" id="target" placeholder="$1,000,000.00"></div>
 
         <div id="result-card" class="result-card">
             <div id="summary" class="summary-text"></div>
             <div id="steps" class="steps-container"></div>
-            
             <div class="action-grid">
                 <button class="action-btn" onclick="copyResults()">Copy Results</button>
                 <button class="action-btn" onclick="shareResults()">Share</button>
@@ -102,7 +102,7 @@
         </div>
     </div>
 
-    <div id="toast">Copied to Clipboard!</div>
+    <div id="toast">Copied!</div>
 
     <script>
         const startInp = document.getElementById('start'), 
@@ -135,12 +135,7 @@
 
         function calculate() {
             let cur = cleanNum(startInp.value), m = parseFloat(multInp.value) || 0, goal = cleanNum(targetInp.value);
-            
-            if (cur <= 0 || m <= 1 || goal <= cur) {
-                resCard.style.display = 'none';
-                return;
-            }
-
+            if (cur <= 0 || m <= 1 || goal <= cur) { resCard.style.display = 'none'; return; }
             resCard.style.display = 'block';
             let count = 0, out = "";
             while (cur < goal && count < 200) {
@@ -156,18 +151,18 @@
             const text = `${summaryEl.innerText}\n\n` + Array.from(stepsEl.querySelectorAll('.step-row')).map(r => r.innerText).join('\n');
             navigator.clipboard.writeText(text).then(() => {
                 toast.style.opacity = "1";
-                setTimeout(() => toast.style.opacity = "0", 2000);
+                setTimeout(() => toast.style.opacity = "0", 1500);
             });
         }
 
         function shareResults() {
             if (navigator.share) {
-                navigator.share({ title: 'Multiplication Steps', text: summaryEl.innerText, url: window.location.href });
+                navigator.share({ title: 'Results', text: summaryEl.innerText, url: window.location.href });
             } else { copyResults(); }
         }
 
         function showInstallInfo() {
-            alert('To install: Tap the Share button (square with arrow) at the bottom of Safari, then select Add to Home Screen.');
+            alert('Tap the Safari Share button then "Add to Home Screen"');
         }
 
         [startInp, targetInp].forEach(el => {
