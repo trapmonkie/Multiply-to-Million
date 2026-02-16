@@ -9,62 +9,44 @@
     <style>
         :root { 
             --bg: #ffffff; --text: #000000; --sub: #6e6e73; --border: #e5e5e7; --panel: #f6f6f7; 
-            --btn-bg: #ffffff;
         }
         [data-theme="dark"] { 
             --bg: #000000; --text: #ffffff; --sub: #9a9aa1; --border: #1c1c1e; --panel: #111111; 
-            --btn-bg: #000000;
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
+        /* Synchronized Fade for everything */
+        body, input, .icon-btn, .result-card, .action-btn { 
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; 
+        }
+
         body { 
             font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); 
-            padding: 24px; transition: background-color 0.4s ease;
+            padding: 24px; -webkit-font-smoothing: antialiased;
         }
 
         .container { max-width: 480px; margin: 0 auto; }
-        .header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 32px; gap: 16px; }
-        h1 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+        .header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 32px; }
+        h1 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
         .subline { color: var(--sub); font-size: 15px; margin-top: 4px; }
 
-        /* SMOOTH ICON BLENDING */
         .side-actions { display: flex; flex-direction: column; gap: 12px; }
         .icon-btn { 
             background: var(--panel); border: 1px solid var(--border); 
             border-radius: 50%; width: 44px; height: 44px; 
             display: flex; align-items: center; justify-content: center; cursor: pointer;
-            position: relative; overflow: hidden;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
         }
         .icon-btn svg { 
             position: absolute; width: 20px; height: 20px; 
             stroke: var(--text); stroke-width: 2; fill: none;
-            transition: transform 0.4s ease, opacity 0.4s ease;
+            transition: opacity 0.3s ease;
         }
         
-        /* Toggle Animation States */
-        [data-theme="light"] .moon-icon { opacity: 1; transform: rotate(0); }
-        [data-theme="light"] .sun-icon { opacity: 0; transform: rotate(90deg); }
-        [data-theme="dark"] .moon-icon { opacity: 0; transform: rotate(-90deg); }
-        [data-theme="dark"] .sun-icon { opacity: 1; transform: rotate(0); }
-
-        /* BUTTON SQUISH & SUCCESS TRANSITION */
-        .action-btn { 
-            background: var(--btn-bg); border: 1px solid var(--border); 
-            width: 100%; padding: 14px; border-radius: 12px;
-            color: var(--text); font-size: 14px; font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .action-btn:active { transform: scale(0.94); }
-        
-        .action-btn.success {
-            background-color: #323232 !important;
-            color: #ffffff !important;
-            border-color: #323232 !important;
-            transform: scale(1.02); /* Slight pulse when copied */
-        }
+        /* Icon Crossfade */
+        [data-theme="light"] .sun-icon, [data-theme="dark"] .moon-icon { opacity: 0; }
+        [data-theme="light"] .moon-icon, [data-theme="dark"] .sun-icon { opacity: 1; }
 
         .input-group { margin-bottom: 20px; }
         label { display: block; font-size: 11px; text-transform: uppercase; color: var(--sub); margin-bottom: 8px; font-weight: 700; letter-spacing: 0.05em; }
@@ -76,37 +58,48 @@
         .result-card { 
             background: var(--panel); border-radius: 20px; padding: 24px; 
             margin-top: 24px; border: 1px solid var(--border); display: none;
-            animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .summary-text { font-weight: 600; font-size: 19px; margin-bottom: 16px; }
         .steps-container { max-height: 280px; overflow-y: auto; font-family: ui-monospace, monospace; font-size: 14px; border-top: 1px solid var(--border); padding-top: 16px; }
         .step-row { padding: 8px 0; color: var(--sub); border-bottom: 1px solid var(--border); }
+        
         .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+        .action-btn {
+            width: 100%; padding: 14px; border-radius: 12px;
+            background: var(--bg); border: 1px solid var(--border);
+            color: var(--text); font-size: 14px; font-weight: 600; cursor: pointer;
+        }
+
+        /* Minimalist Success State */
+        .action-btn.success {
+            background-color: #323232 !important;
+            color: #ffffff !important;
+            border-color: #323232 !important;
+        }
     </style>
 </head>
 <body data-theme="light">
     <div class="container">
         <div class="header">
             <div>
-                <h1>How Many Steps to Reach $1,000,000?</h1>
-                <p class="subline">Calculate exact growth multiplications.</p>
+                <h1>Multiply to Million</h1>
+                <p class="subline">Exact growth multiplications.</p>
             </div>
             <div class="side-actions">
                 <div class="icon-btn" id="theme-btn">
                     <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                     <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
                 </div>
-                <div class="icon-btn" onclick="alert('Tap the Share icon and select Add to Home Screen.')">
+                <div class="icon-btn" onclick="alert('Tap Share > Add to Home Screen')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                 </div>
             </div>
         </div>
 
-        <div class="input-group"><label>Starting Amount ($)</label><input type="text" id="start" inputmode="decimal" placeholder="$25.00"></div>
+        <div class="input-group"><label>Start ($)</label><input type="text" id="start" inputmode="decimal" placeholder="$25.00"></div>
         <div class="input-group"><label>Multiplier (x)</label><input type="number" id="multiplier" inputmode="decimal" placeholder="3"></div>
-        <div class="input-group"><label>Target Amount ($)</label><input type="text" id="target" inputmode="decimal" placeholder="$1,000,000.00"></div>
+        <div class="input-group"><label>Target ($)</label><input type="text" id="target" inputmode="decimal" placeholder="$1,000,000.00"></div>
 
         <div id="result-card" class="result-card">
             <div id="summary" class="summary-text"></div>
@@ -128,15 +121,17 @@
               themeBtn = document.getElementById('theme-btn'),
               copyBtn = document.getElementById('copy-btn');
 
-        // Initial Theme
-        document.body.setAttribute('data-theme', localStorage.getItem('calculator-theme') || 'light');
+        function setTheme(t) {
+            document.body.setAttribute('data-theme', t);
+            localStorage.setItem('calculator-theme', t);
+        }
 
         themeBtn.onclick = () => {
             const current = document.body.getAttribute('data-theme');
-            const target = current === 'light' ? 'dark' : 'light';
-            document.body.setAttribute('data-theme', target);
-            localStorage.setItem('calculator-theme', target);
+            setTheme(current === 'light' ? 'dark' : 'light');
         };
+        
+        setTheme(localStorage.getItem('calculator-theme') || 'light');
 
         const cleanNum = (s) => parseFloat(s.replace(/[^0-9.-]+/g, "")) || 0;
         const fmt = (n) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n);
@@ -179,8 +174,6 @@
             el.addEventListener('input', calculate);
         });
         multInp.oninput = calculate;
-        
-        // Final polish: iOS active state trigger
         document.addEventListener("touchstart", function() {}, true);
     </script>
 </body>
