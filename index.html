@@ -2,75 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Multiply to Million</title>
+    <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root { 
             --bg: #ffffff; --text: #000000; --sub: #6e6e73; --border: #e5e5e7; --panel: #f6f6f7; 
-            --speed: 0.2s; /* Faster for a snappier, premium feel */
+            --speed: 0.2s;
         }
         [data-theme="dark"] { 
             --bg: #000000; --text: #ffffff; --sub: #9a9aa1; --border: #1c1c1e; --panel: #111111; 
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
         body { 
-            font-family: 'Inter', sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            padding: 24px; 
-            line-height: 1.4;
-            /* Hardware acceleration for smoother transitions */
-            transition: background-color var(--speed) ease, color var(--speed) ease;
-            will-change: background-color;
+            font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); 
+            padding: 24px; transition: background-color var(--speed), color var(--speed);
+            -webkit-font-smoothing: antialiased;
         }
 
         .container { max-width: 480px; margin: 0 auto; }
-        
         .header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 32px; gap: 16px; }
-        h1 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 4px; }
-        .subline { color: var(--sub); font-size: 15px; font-weight: 400; }
+        h1 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+        .subline { color: var(--sub); font-size: 15px; margin-top: 4px; }
 
-        .theme-toggle { 
-            background: var(--panel); 
-            border: 1px solid var(--border); 
-            border-radius: 50%; width: 40px; height: 40px; min-width: 40px;
-            display: flex; align-items: center; justify-content: center; 
-            cursor: pointer;
-            transition: background-color var(--speed) ease, border-color var(--speed) ease;
-            outline: none;
-            -webkit-tap-highlight-color: transparent; /* Removes mobile tap flash */
+        .side-actions { display: flex; flex-direction: column; gap: 12px; }
+        .icon-btn { 
+            background: var(--panel); border: 1px solid var(--border); 
+            border-radius: 50%; width: 40px; height: 40px; 
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            transition: all var(--speed); -webkit-tap-highlight-color: transparent;
         }
-
-        .theme-toggle svg { 
-            width: 20px; height: 20px; stroke: var(--sub); stroke-width: 2; fill: none; 
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        /* Rotates the icon during toggle for a fluid feel */
-        [data-theme="dark"] .theme-toggle svg { transform: rotate(360deg); }
+        .icon-btn svg { width: 20px; height: 20px; stroke: var(--sub); stroke-width: 2; fill: none; }
+        [data-theme="dark"] .icon-btn svg { stroke: var(--text); }
 
         .input-group { margin-bottom: 20px; }
-        label { display: block; font-size: 12px; text-transform: uppercase; color: var(--sub); margin-bottom: 8px; font-weight: 600; }
-        
+        label { display: block; font-size: 11px; text-transform: uppercase; color: var(--sub); margin-bottom: 8px; font-weight: 700; letter-spacing: 0.05em; }
         input { 
-            width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--border); 
+            width: 100%; padding: 16px; border-radius: 14px; border: 1px solid var(--border); 
             background: var(--bg); color: var(--text); font-size: 16px; outline: none; 
-            transition: background-color var(--speed) ease, border-color var(--speed) ease, color var(--speed) ease;
+            transition: border-color var(--speed);
         }
         input:focus { border-color: var(--sub); }
-        
-        .result-card { 
-            background: var(--panel); border-radius: 16px; padding: 20px; margin-top: 24px; 
-            border: 1px solid var(--border); 
-            transition: background-color var(--speed) ease, border-color var(--speed) ease;
+
+        .result-card { background: var(--panel); border-radius: 20px; padding: 24px; margin-top: 24px; border: 1px solid var(--border); }
+        .summary-text { font-weight: 600; font-size: 19px; margin-bottom: 16px; }
+        .steps-container { max-height: 280px; overflow-y: auto; font-family: ui-monospace, monospace; font-size: 14px; border-top: 1px solid var(--border); padding-top: 16px; }
+        .step-row { padding: 8px 0; color: var(--sub); border-bottom: 1px solid rgba(0,0,0,0.03); }
+
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+        .action-btn {
+            padding: 14px; border-radius: 12px; border: 1px solid var(--border);
+            background: var(--bg); color: var(--text); font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: opacity 0.1s; -webkit-tap-highlight-color: transparent;
         }
-        
-        .summary-text { font-weight: 600; font-size: 18px; margin-bottom: 12px; color: var(--text); }
-        .steps-container { max-height: 300px; overflow-y: auto; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; border-top: 1px solid var(--border); padding-top: 12px; }
-        .step-row { padding: 6px 0; color: var(--sub); border-bottom: 1px solid rgba(0,0,0,0.02); }
-        [data-theme="dark"] .step-row { border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .action-btn:active { opacity: 0.5; }
     </style>
 </head>
 <body data-theme="light">
@@ -78,111 +65,77 @@
         <div class="header">
             <div>
                 <h1>How Many Steps to Reach $1,000,000?</h1>
-                <p class="subline">Calculate the exact number of growth multiplications needed to reach any target.</p>
+                <p class="subline">Calculate the exact number of growth multiplications needed.</p>
             </div>
-            <div class="theme-toggle" id="theme-btn" aria-label="Toggle Theme"></div>
+            <div class="side-actions">
+                <div class="icon-btn" id="theme-btn" aria-label="Toggle Theme"></div>
+                <div class="icon-btn" onclick="alert('To install: Tap the Share button (square with arrow) at the bottom of Safari, then select Add to Home Screen.')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                </div>
+            </div>
         </div>
 
-        <div class="input-group">
-            <label>Starting Amount ($)</label>
-            <input type="text" id="start" value="$25.00">
-        </div>
-        <div class="input-group">
-            <label>Multiplier (x)</label>
-            <input type="number" id="multiplier" value="3" step="any">
-        </div>
-        <div class="input-group">
-            <label>Target Amount ($)</label>
-            <input type="text" id="target" value="$1,000,000.00">
-        </div>
+        <div class="input-group"><label>Starting Amount ($)</label><input type="text" id="start" value="$25.00"></div>
+        <div class="input-group"><label>Multiplier (x)</label><input type="number" id="multiplier" value="3" step="any"></div>
+        <div class="input-group"><label>Target Amount ($)</label><input type="text" id="target" value="$1,000,000.00"></div>
 
         <div class="result-card">
             <div id="summary" class="summary-text">Ready to calculate...</div>
             <div id="steps" class="steps-container"></div>
+            
+            <div class="action-grid">
+                <button class="action-btn" onclick="copyResults()">Copy Results</button>
+                <button class="action-btn" onclick="shareResults()">Share</button>
+            </div>
         </div>
     </div>
 
     <script>
-        const startInp = document.getElementById('start');
-        const multInp = document.getElementById('multiplier');
-        const targetInp = document.getElementById('target');
-        const summaryEl = document.getElementById('summary');
-        const stepsEl = document.getElementById('steps');
-        const themeBtn = document.getElementById('theme-btn');
+        const startInp = document.getElementById('start'), multInp = document.getElementById('multiplier'), targetInp = document.getElementById('target'), summaryEl = document.getElementById('summary'), stepsEl = document.getElementById('steps'), themeBtn = document.getElementById('theme-btn');
+        const sun = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`, moon = `<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
 
-        // SVG Icons
-        const sun = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`;
-        const moon = `<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
-
-        // Optimized Theme Logic
-        function setTheme(theme) {
-            document.body.setAttribute('data-theme', theme);
-            themeBtn.innerHTML = theme === 'light' ? moon : sun;
-            localStorage.setItem('calculator-theme', theme);
-        }
-        
-        themeBtn.onclick = () => {
-            const isLight = document.body.getAttribute('data-theme') === 'light';
-            setTheme(isLight ? 'dark' : 'light');
-        };
-        
+        function setTheme(t) { document.body.setAttribute('data-theme', t); themeBtn.innerHTML = t === 'light' ? moon : sun; localStorage.setItem('calculator-theme', t); }
+        themeBtn.onclick = () => setTheme(document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
         setTheme(localStorage.getItem('calculator-theme') || 'light');
 
-        // --- Formatting & Math Helpers ---
-        
-        const cleanNum = (str) => parseFloat(str.replace(/[^0-9.-]+/g, "")) || 0;
-
-        const fmt = (n) => new Intl.NumberFormat('en-US', { 
-            style: 'currency', 
-            currency: 'USD',
-            minimumFractionDigits: 2
-        }).format(n);
-
-        function formatInput(el) {
-            let val = cleanNum(el.value);
-            if (val === 0 && el.value === "") return;
-            if (!el.value.endsWith('.')) {
-                el.value = fmt(val);
-            }
-        }
+        const cleanNum = (s) => parseFloat(s.replace(/[^0-9.-]+/g, "")) || 0;
+        const fmt = (n) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n);
 
         function calculate() {
-            let current = cleanNum(startInp.value);
-            const m = parseFloat(multInp.value) || 0;
-            const goal = cleanNum(targetInp.value);
-
-            if (current <= 0 || m <= 1) {
-                summaryEl.innerText = "Enter valid numbers";
-                stepsEl.innerHTML = "";
-                return;
+            let cur = cleanNum(startInp.value), m = parseFloat(multInp.value) || 0, goal = cleanNum(targetInp.value);
+            if (cur <= 0 || m <= 1) { summaryEl.innerText = "Invalid input"; stepsEl.innerHTML = ""; return; }
+            let count = 0, out = "";
+            while (cur < goal && count < 200) {
+                let next = cur * m; count++;
+                out += `<div class="step-row"><b>Step ${count}:</b> ${fmt(cur)} × ${m} = ${fmt(next)}</div>`;
+                cur = next;
             }
-
-            if (current >= goal) {
-                summaryEl.innerText = "Target already reached";
-                stepsEl.innerHTML = `<div class="step-row">Starting amount ${fmt(current)} is already greater than or equal to ${fmt(goal)}.</div>`;
-                return;
-            }
-
-            let count = 0;
-            let output = "";
-            let tempCurrent = current;
-
-            while (tempCurrent < goal && count < 200) {
-                let next = tempCurrent * m;
-                count++;
-                output += `<div class="step-row"><b>Step ${count}:</b> ${fmt(tempCurrent)} × ${m} = ${fmt(next)}</div>`;
-                tempCurrent = next;
-            }
-
             summaryEl.innerText = `${count} steps to exceed ${fmt(goal)}`;
-            stepsEl.innerHTML = output;
+            stepsEl.innerHTML = out;
+        }
+
+        function copyResults() {
+            const text = `${summaryEl.innerText}\n\n` + Array.from(stepsEl.querySelectorAll('.step-row')).map(r => r.innerText).join('\n');
+            navigator.clipboard.writeText(text).then(() => {
+                const original = summaryEl.innerText;
+                summaryEl.innerText = "Copied to Clipboard!";
+                setTimeout(() => summaryEl.innerText = original, 1500);
+            });
+        }
+
+        function shareResults() {
+            const text = `${summaryEl.innerText}\nCheck out these multiplication steps:`;
+            if (navigator.share) {
+                navigator.share({ title: 'Multiplication Steps', text: text, url: window.location.href });
+            } else { copyResults(); }
         }
 
         [startInp, targetInp].forEach(el => {
-            el.addEventListener('blur', () => formatInput(el));
+            el.addEventListener('blur', () => { el.value = fmt(cleanNum(el.value)); });
             el.addEventListener('input', calculate);
         });
-
         multInp.oninput = calculate;
         calculate();
     </script>
