@@ -1,324 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Multiply to Million — Growth Step Calculator</title>
-<meta name="description" content="See exactly how many multiplications (doublings, triplings, etc.) it takes to exceed any target, with a full step‑by‑step preview." />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<style>
-  :root {
-    --bg: #ffffff;
-    --text: #000000;
-    --sub: #6e6e73;
-    --border: #e5e5e7;
-    --panel: #f6f6f7;
-  }
-  [data-theme="dark"] {
-    --bg: #000000;
-    --text: #ffffff;
-    --sub: #9a9aa1;
-    --border: #1c1c1e;
-    --panel: #111111;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: "Inter", system-ui, -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    transition: background 0.2s, color 0.2s;
-  }
-  .container { width: 100%; max-width: 560px; }
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 28px;
-  }
-  h1 { font-weight: 600; font-size: 1.6rem; letter-spacing: -0.02em; }
-  .theme-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    border-radius: 30px;
-    border: 1px solid var(--border);
-    background: var(--panel);
-    line-height: 1;
-    user-select: none;
-  }
-  .theme-icon svg {
-    width: 24px;
-    height: 24px;
-    stroke: var(--sub);
-    stroke-width: 1.8;
-    fill: none;
-    transition: stroke 0.2s;
-  }
-  .theme-icon:hover svg {
-    stroke: var(--text);
-  }
-  .field-group { margin-bottom: 18px; }
-  label {
-    display: block;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--sub);
-    margin-bottom: 6px;
-    font-weight: 500;
-  }
-  input {
-    width: 100%;
-    padding: 14px 16px;
-    font-size: 1rem;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    color: var(--text);
-    border-radius: 10px;
-    font-family: inherit;
-  }
-  input:focus { border-color: var(--text); outline: none; }
-  .result {
-    margin-top: 26px;
-    padding: 20px;
-    border-radius: 14px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-  }
-  .summary { font-weight: 600; margin-bottom: 8px; font-size: 1.1rem; }
-  .detail { font-size: 0.9rem; color: var(--sub); margin-bottom: 12px; }
-  .steps {
-    max-height: 280px;
-    overflow-y: auto;
-    font-size: 0.85rem;
-    font-family: ui-monospace, monospace;
-    border-top: 1px solid var(--border);
-    padding-top: 12px;
-  }
-  .step { padding: 4px 0; }
-  .explain {
-    margin-top: 30px;
-    border-radius: 14px;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    padding: 12px 16px;
-  }
-  .explain summary {
-    font-weight: 600;
-    cursor: pointer;
-    color: var(--text);
-    font-size: 0.95rem;
-  }
-  .explain-content {
-    margin-top: 12px;
-    font-size: 0.9rem;
-    color: var(--sub);
-    line-height: 1.5;
-  }
-  .truth {
-    margin: 10px 0;
-    padding: 10px;
-    background: var(--bg);
-    border-radius: 8px;
-    border: 1px solid var(--border);
-  }
-  .footer {
-    margin-top: 24px;
-    font-size: 0.75rem;
-    color: var(--sub);
-    text-align: center;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiply to Million</title>
+    <style>
+        /* Keeping your clean, minimalistic UI styles */
+        :root { --bg: #ffffff; --text: #1d1d1f; --input-bg: #f5f5f7; --accent: #0071e3; }
+        [data-theme="dark"] { --bg: #000000; --text: #f5f5f7; --input-bg: #1c1c1e; --accent: #0a84ff; }
+        
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); padding: 2rem; transition: 0.3s; }
+        .container { max-width: 400px; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        
+        /* Minimalist Icon Toggle */
+        #theme-toggle { background: none; border: none; cursor: pointer; color: var(--text); font-size: 1.5rem; }
+        
+        .input-group { margin-bottom: 1.5rem; }
+        label { display: block; font-size: 0.8rem; margin-bottom: 0.5rem; opacity: 0.7; }
+        input { width: 100%; padding: 12px; border-radius: 10px; border: none; background: var(--input-bg); color: var(--text); font-size: 1rem; outline: none; }
+        
+        .results-area { margin-top: 2rem; border-top: 1px solid var(--input-bg); padding-top: 1rem; }
+        .step { font-family: monospace; font-size: 0.9rem; margin-bottom: 0.5rem; padding: 4px 0; }
+        .summary { font-weight: bold; margin-bottom: 1rem; color: var(--accent); }
+    </style>
 </head>
-<body>
-<div class="container">
-  <div class="header">
-    <h1>× Multiply to Million</h1>
-    <div class="theme-icon" id="themeToggle" aria-label="Toggle dark mode"></div>
-  </div>
+<body data-theme="light">
+    <div class="container">
+        <div class="header">
+            <h1>Calculator</h1>
+            <button id="theme-toggle" aria-label="Toggle Theme">🌙</button>
+        </div>
 
-  <div class="field-group">
-    <label>Starting Amount ($)</label>
-    <input type="number" id="start" value="25" min="0.01" step="any" placeholder="$25.00">
-  </div>
-  <div class="field-group">
-    <label>Multiplier (×)</label>
-    <input type="number" id="multiplier" value="3" min="1.0001" step="any" placeholder="3">
-  </div>
-  <div class="field-group">
-    <label>Target Amount ($)</label>
-    <input type="number" id="target" value="1000000" min="0.01" step="any" placeholder="$1,000,000">
-  </div>
+        <div class="input-group">
+            <label>Starting Amount ($)</label>
+            <input type="number" id="start" value="25">
+        </div>
+        <div class="input-group">
+            <label>Multiplier (x)</label>
+            <input type="number" id="multiplier" value="3">
+        </div>
+        <div class="input-group">
+            <label>Target Amount ($)</label>
+            <input type="number" id="target" value="1000000">
+        </div>
 
-  <div class="result" aria-live="polite">
-    <div class="summary" id="summary">10 multiplications required</div>
-    <div class="detail" id="detail">$25.00 × 3^10 = $1,476,225.00 (exceeds $1,000,000.00)</div>
-    <div class="steps" id="steps">
-      <div class="step">1. $25.00 × 3 = $75.00</div>
-      <div class="step">2. $75.00 × 3 = $225.00</div>
-      <div class="step">3. $225.00 × 3 = $675.00</div>
-      <div class="step">4. $675.00 × 3 = $2,025.00</div>
-      <div class="step">5. $2,025.00 × 3 = $6,075.00</div>
-      <div class="step">6. $6,075.00 × 3 = $18,225.00</div>
-      <div class="step">7. $18,225.00 × 3 = $54,675.00</div>
-      <div class="step">8. $54,675.00 × 3 = $164,025.00</div>
-      <div class="step">9. $164,025.00 × 3 = $492,075.00</div>
-      <div class="step">10. $492,075.00 × 3 = $1,476,225.00</div>
-    </div>
-  </div>
+        <div class="results-area">
+            <div id="summary" class="summary"></div>
+            <div id="steps-list"></div>
+        </div>
+    </div>
 
-  <details class="explain">
-    <summary>How the step‑by‑step calculator works</summary>
-    <div class="explain-content">
-      <p>Enter any starting amount, multiplier, and target. The tool instantly shows the exact number of multiplications needed and the full sequence up to 100 steps.</p>
-      <div class="truth">✔ The example above: tripling $25 exceeds $1 million in exactly 10 steps.</div>
-      <div class="truth">✔ Formula: steps = ⌈ log(target / start) / log(multiplier) ⌉</div>
-      <div class="truth">✔ Handles values from $0.01 to $10M, multipliers up to 100,000.</div>
-    </div>
-  </details>
+    <script>
+        const startInput = document.getElementById('start');
+        const multInput = document.getElementById('multiplier');
+        const targetInput = document.getElementById('target');
+        const stepsList = document.getElementById('steps-list');
+        const summary = document.getElementById('summary');
+        const themeBtn = document.getElementById('theme-toggle');
 
-  <div class="footer">
-    Real‑time calculation — results update as you type.
-  </div>
-</div>
+        // Theme Toggle Logic
+        themeBtn.onclick = () => {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            themeBtn.innerText = isDark ? '🌙' : '☀️';
+        };
 
-<script>
-(function() {
-  // --- DOM elements ---
-  const startInput = document.getElementById('start');
-  const multInput = document.getElementById('multiplier');
-  const targetInput = document.getElementById('target');
-  const summaryEl = document.getElementById('summary');
-  const detailEl = document.getElementById('detail');
-  const stepsEl = document.getElementById('steps');
-  const themeToggle = document.getElementById('themeToggle');
+        // Formatting Helper
+        const format = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
 
-  // --- Constants ---
-  const MAX_STEPS_SHOW = 100;
-  const MIN_START = 0.01, MAX_START = 1e12;
-  const MIN_MULT = 1.0001, MAX_MULT = 1e6;
-  const MIN_TARGET = 0.01, MAX_TARGET = 1e15;
+        // Core Calculation Engine
+        function runCalc() {
+            let current = parseFloat(startInput.value) || 0;
+            const mult = parseFloat(multInput.value) || 0;
+            const goal = parseFloat(targetInput.value) || 0;
+            
+            stepsList.innerHTML = '';
+            
+            if (current <= 0 || mult <= 1) {
+                summary.innerText = "Enter valid numbers to begin";
+                return;
+            }
 
-  // --- SVG icons (thin‑stroke, currentColor) ---
-  const moonSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
-  const sunSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+            let stepCount = 0;
+            let html = '';
 
-  // --- Theme handling with icons ---
-  function setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-    // In light mode, show moon (to suggest switching to dark); in dark mode, show sun.
-    themeToggle.innerHTML = theme === 'dark' ? sunSVG : moonSVG;
-  }
-  const storedTheme = localStorage.getItem('theme') || 'light';
-  setTheme(storedTheme);
-  themeToggle.addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme');
-    setTheme(current === 'dark' ? 'light' : 'dark');
-  });
+            while (current < goal && stepCount < 200) { // Safety cap
+                const next = current * mult;
+                stepCount++;
+                html += `<div class="step">${stepCount}. ${format(current)} × ${mult} = ${format(next)}</div>`;
+                current = next;
+            }
 
-  // --- Helper: clamp ---
-  function clamp(val, min, max) { return Math.min(Math.max(val, min), max); }
+            summary.innerText = `It takes exactly ${stepCount} steps to cross the ${format(goal)} threshold.`;
+            stepsList.innerHTML = html;
+        }
 
-  // --- Format USD ---
-  function formatUSD(n) {
-    if (isNaN(n)) return '$0.00';
-    return Number(n).toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
+        // Real-time Listeners
+        [startInput, multInput, targetInput].forEach(input => {
+            input.addEventListener('input', runCalc);
+        });
 
-  // --- Safe step calculation (log + verification) ---
-  function safeSteps(start, m, target) {
-    if (start >= target) return 0;
-    const n = Math.ceil(Math.log(target / start) / Math.log(m));
-    let current = start;
-    for (let i = 0; i < n; i++) current *= m;
-    // If due to floating point it's still below target, add one more step
-    if (current < target) return n + 1;
-    return n;
-  }
-
-  // --- Main calculation ---
-  function calculate() {
-    let start = clamp(parseFloat(startInput.value) || 0, MIN_START, MAX_START);
-    let m = clamp(parseFloat(multInput.value) || 2, MIN_MULT, MAX_MULT);
-    let target = clamp(parseFloat(targetInput.value) || 0, MIN_TARGET, MAX_TARGET);
-
-    startInput.value = start;
-    multInput.value = m;
-    targetInput.value = target;
-
-    if (start <= 0 || m <= 1 || target <= 0) {
-      summaryEl.textContent = 'Invalid input';
-      detailEl.textContent = '';
-      stepsEl.innerHTML = '';
-      return;
-    }
-
-    if (start >= target) {
-      summaryEl.textContent = '0 multiplications required';
-      detailEl.textContent = `${formatUSD(start)} already exceeds ${formatUSD(target)}`;
-      stepsEl.innerHTML = '';
-      return;
-    }
-
-    const n = safeSteps(start, m, target);
-    // Compute final value by multiplying n times (avoids pow inaccuracies)
-    let finalValue = start;
-    for (let i = 0; i < n; i++) finalValue *= m;
-
-    summaryEl.textContent = `${n} multiplication${n !== 1 ? 's' : ''} required`;
-    detailEl.textContent = `${formatUSD(start)} × ${m}^${n} = ${formatUSD(finalValue)} (exceeds ${formatUSD(target)})`;
-
-    // Generate steps (capped)
-    stepsEl.innerHTML = '';
-    let current = start;
-    const stepsToShow = Math.min(n, MAX_STEPS_SHOW);
-    for (let i = 1; i <= stepsToShow; i++) {
-      const next = current * m;
-      const div = document.createElement('div');
-      div.className = 'step';
-      div.textContent = `${i}. ${formatUSD(current)} × ${m} = ${formatUSD(next)}`;
-      stepsEl.appendChild(div);
-      current = next;
-    }
-    if (n > MAX_STEPS_SHOW) {
-      const div = document.createElement('div');
-      div.className = 'step';
-      div.textContent = `... and ${n - MAX_STEPS_SHOW} more steps (truncated)`;
-      stepsEl.appendChild(div);
-    }
-
-    // Update URL parameters silently (optional but nice for sharing)
-    const url = new URL(window.location);
-    url.searchParams.set('start', start);
-    url.searchParams.set('m', m);
-    url.searchParams.set('target', target);
-    window.history.replaceState({}, '', url);
-  }
-
-  // --- Attach real-time listeners ---
-  [startInput, multInput, targetInput].forEach(el => {
-    el.addEventListener('input', calculate);
-  });
-
-  // --- Load params from URL if present ---
-  (function loadParams() {
-    const params = new URLSearchParams(window.location.search);
-    if (params.has('start')) startInput.value = parseFloat(params.get('start')) || 25;
-    if (params.has('m')) multInput.value = parseFloat(params.get('m')) || 3;
-    if (params.has('target')) targetInput.value = parseFloat(params.get('target')) || 1000000;
-    calculate();
-  })();
-})();
-</script>
+        // Run on load
+        runCalc();
+    </script>
 </body>
 </html>
