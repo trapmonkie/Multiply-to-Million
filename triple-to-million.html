@@ -20,7 +20,6 @@
     <meta name="theme-color" content="#007BFF">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Schema for this page -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -86,17 +85,13 @@
                 </div>
             </div>
         </div>
-
         <div class="title-block">
             <h1>How Many Triples to $1,000,000?</h1>
             <p class="subline">Calculate tripling steps to reach your goal.</p>
         </div>
-
-        <!-- Pre‑filled for tripling -->
         <input type="text" id="start" inputmode="decimal" placeholder="Starting Amount ($25.00)" value="$25.00">
         <input type="number" id="multiplier" inputmode="decimal" placeholder="Multiplier (3)" value="3">
         <input type="text" id="target" inputmode="decimal" placeholder="Target Amount ($1,000,000.00)" value="$1,000,000.00">
-
         <div id="result-card" class="result-card">
             <div id="summary" class="summary-text"></div>
             <div id="steps" class="steps-container"></div>
@@ -106,10 +101,7 @@
                 <button class="action-btn" id="share-btn" onclick="shareResults()">Share</button>
             </div>
         </div>
-
         <div id="answer-block" class="answer-block"></div>
-
-        <!-- Educational content for tripling (no emojis) -->
         <section class="content-section">
             <h2>The Rule of Thumb for Tripling</h2>
             <p>If you want to triple a number repeatedly, you write it as <strong>3ⁿ</strong>. Here 3 is the <strong>base</strong> (what you do each step) and n is the <strong>exponent</strong> (how many times you do it).</p>
@@ -118,7 +110,6 @@
                 <strong>Example with start = $25:</strong> $25 × 3¹⁰ = $1,476,225 – you exceed $1M in 10 steps.
             </div>
         </section>
-
         <section class="content-section">
             <h2>Comparison Table – After 5 Steps</h2>
             <p>See how different bases explode:</p>
@@ -131,8 +122,6 @@
                 </tbody>
             </table>
         </section>
-
-        <!-- Internal linking loop (no emojis) -->
         <div class="related-section">
             <a href="/double-to-million" class="related-link">Double</a>
             <a href="/triple-to-million" class="related-link">Triple</a>
@@ -142,7 +131,6 @@
             <a href="/" class="related-link">Custom Multiplier</a>
         </div>
     </div>
-
     <script>
         const startInp = document.getElementById('start'), multInp = document.getElementById('multiplier'), 
               targetInp = document.getElementById('target'), resCard = document.getElementById('result-card'),
@@ -150,10 +138,8 @@
               themeBtn = document.getElementById('theme-btn'), copyBtn = document.getElementById('copy-btn'),
               truncNotice = document.getElementById('truncation-notice'),
               answerBlock = document.getElementById('answer-block');
-
         const cleanNum = (s) => { const num = parseFloat(s.toString().replace(/[^0-9.-]+/g, "")); return isFinite(num) ? num : 0; };
         const fmt = (n) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }).format(n);
-
         function calculate() {
             let cur = cleanNum(startInp.value), m = parseFloat(multInp.value) || 0, goal = cleanNum(targetInp.value);
             if (cur <= 0 || m <= 1 || goal <= cur) { 
@@ -172,7 +158,6 @@
             answerBlock.style.display = 'block';
             answerBlock.textContent = `Starting from ${fmt(startVal)} and multiplying by ${m} each step, it takes ${count} steps to exceed ${fmt(goal)}.`;
         }
-
         function copyResults() {
             const text = `${summaryEl.innerText}\n\n` + Array.from(stepsEl.querySelectorAll('.step-row')).map(r => r.innerText).join('\n');
             navigator.clipboard.writeText(text).then(() => {
@@ -182,20 +167,16 @@
                 setTimeout(() => { copyBtn.innerText = originalText; copyBtn.classList.remove('success'); }, 1500);
             });
         }
-
         async function shareResults() {
             const shareData = { title: 'Triple to $1,000,000?', text: "My tripling path:\n" + summaryEl.innerText, url: window.location.href };
             try { if (navigator.share) await navigator.share(shareData); else copyResults(); } catch (err) { console.log("Share failed:", err); }
         }
-
         [startInp, targetInp].forEach(el => el.addEventListener('input', calculate));
         multInp.addEventListener('input', calculate);
-
         themeBtn.onclick = () => {
             const t = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
             document.body.setAttribute('data-theme', t);
         };
-
         window.onload = calculate;
     </script>
 </body>
