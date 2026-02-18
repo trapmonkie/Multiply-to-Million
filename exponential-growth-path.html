@@ -7,12 +7,22 @@
     <link rel="icon" href="/xn-compound-growth-multiplier-favicon.PNG" type="image/png" sizes="100x100">
     <link rel="shortcut icon" href="/xn-compound-growth-multiplier-favicon.PNG">
     <link rel="apple-touch-icon" href="xn-multiplytomillion-compound-wealth-calculator-app-icon-day.png.PNG">
-    <title>Exponential Growth Path | 2ⁿ vs 3ⁿ vs 4ⁿ</title>
-    <meta name="description" content="Visualize the difference between doubling, tripling, and quadrupling. See how the growth base changes the trajectory of the curve.">
+    <title>Exponential Growth Path | Comparing 2ⁿ, 3ⁿ, and 4ⁿ</title>
+    <meta name="description" content="Visualize the trajectory of exponential growth. Compare how doubling, tripling, and quadrupling change the speed of reaching one million.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Exponential Growth Paths Compared",
+        "description": "An analysis of how different growth bases (2, 3, 4) impact the speed of compounding.",
+        "author": {"@type": "Organization", "name": "MultiplyToMillion"}
+    }
+    </script>
+
     <style>
         :root { --bg: #ffffff; --text: #000000; --sub: #6e6e73; --border: #e5e5e7; --panel: #f6f6f7; --accent: #007BFF; }
         [data-theme="dark"] { --bg: #000000; --text: #ffffff; --sub: #9a9aa1; --border: #1c1c1e; --panel: #111111; }
@@ -21,25 +31,22 @@
         .container { max-width: 480px; margin: 0 auto; }
         .header-top-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-top: 4px solid var(--accent); padding-top: 15px; margin-bottom: 20px; }
         .logo-img { width: 44px; height: 44px; object-fit: contain; }
-        .side-actions { display: flex; gap: 12px; }
-        .icon-btn { background: var(--panel); border: 1px solid var(--border); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; overflow: hidden; transition: 0.4s ease; }
+        .icon-btn { background: var(--panel); border: 1px solid var(--border); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
         .icon-btn svg { position: absolute; width: 20px; height: 20px; stroke: var(--text); stroke-width: 2; fill: none; transition: 0.4s ease; }
         [data-theme="light"] .sun-icon { opacity: 0; transform: rotate(90deg); }
         [data-theme="dark"] .moon-icon { opacity: 0; transform: rotate(-90deg); }
         .title-block { margin-bottom: 32px; }
         h1 { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
         .subline { color: var(--sub); font-size: 15px; margin-top: 4px; }
+        .answer-block { margin: 24px 0; padding: 20px; background: var(--panel); border-radius: 14px; border-left: 4px solid var(--accent); font-size: 15px; }
         .content-section { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
-        .content-section h2 { font-size: 18px; margin-bottom: 12px; font-weight: 600; }
-        .content-section p { font-size: 14px; color: var(--sub); line-height: 1.7; margin-bottom: 16px; }
         .example-table { width: 100%; border-collapse: collapse; margin-top: 16px; background: var(--panel); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
         .example-table th, .example-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
         .example-table th { background: var(--accent); color: #fff; font-weight: 600; }
         .graph-container { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin: 24px 0; text-align: center; }
         .graph-svg { width: 100%; height: auto; }
         .related-section { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .related-link { background: var(--panel); border: 1px solid var(--border); border-radius: 30px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--text); text-decoration: none; transition: 0.3s; }
-        .related-link:hover { border-color: var(--accent); }
+        .related-link { background: var(--panel); border: 1px solid var(--border); border-radius: 30px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--text); text-decoration: none; }
     </style>
 </head>
 <body data-theme="dark">
@@ -51,9 +58,6 @@
                     <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                     <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
                 </div>
-                <div class="icon-btn" onclick="alert('Tap Share > Add to Home Screen.')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                </div>
             </div>
         </div>
 
@@ -62,41 +66,27 @@
             <p class="subline">Analyzing the trajectory of different bases.</p>
         </div>
 
+        <div class="answer-block">
+            <strong>Key Insight:</strong> Exponential growth is determined by the <strong>base</strong>. Moving from a 2x (double) to a 4x (quadruple) multiplier doesn't just double the speed—it creates an orders-of-magnitude difference in the result over identical time steps.
+        </div>
+
         <section class="content-section">
             <h2>The Power of the Base</h2>
-            <p>In the formula Baseⁿ, even a small increase in the base multiplier leads to an enormous divergence in the final outcome. This is why tripling reaches targets significantly faster than doubling.</p>
-            
+            <p>In the formula $$Base^n$$, the base is the engine. A small change here leads to a massive divergence over time.</p>
             <table class="example-table">
-                <thead>
-                    <tr>
-                        <th>Base</th>
-                        <th>Step 5</th>
-                        <th>Step 10</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Base</th><th>Step 5</th><th>Step 10</th></tr></thead>
                 <tbody>
-                    <tr>
-                        <td>2 (Double)</td>
-                        <td>32</td>
-                        <td>1,024</td>
-                    </tr>
-                    <tr>
-                        <td>3 (Triple)</td>
-                        <td>243</td>
-                        <td>59,049</td>
-                    </tr>
-                    <tr>
-                        <td>4 (Quadruple)</td>
-                        <td>1,024</td>
-                        <td>1,048,576</td>
-                    </tr>
+                    <tr><td>2 (Double)</td><td>32</td><td>1,024</td></tr>
+                    <tr><td>3 (Triple)</td><td>243</td><td>59,049</td></tr>
+                    <tr><td>4 (Quadruple)</td><td>1,024</td><td>1,048,576</td></tr>
                 </tbody>
             </table>
         </section>
 
+        
+
         <section class="content-section">
             <h2>Comparative Trajectory</h2>
-            <p>The graph below visualizes how the 2x, 3x, and 4x multipliers separate as the number of steps increases.</p>
             <div class="graph-container">
                 <svg class="graph-svg" viewBox="0 0 400 200">
                     <line x1="40" y1="180" x2="360" y2="180" stroke="var(--border)" stroke-width="1"/>
@@ -117,12 +107,9 @@
             <a href="/" class="related-link">Calculator</a>
         </div>
     </div>
-
     <script>
-        const themeBtn = document.getElementById('theme-btn');
-        themeBtn.onclick = () => {
-            const t = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-            document.body.setAttribute('data-theme', t);
+        document.getElementById('theme-btn').onclick = () => {
+            document.body.setAttribute('data-theme', document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
         };
     </script>
 </body>
