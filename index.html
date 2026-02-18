@@ -4,14 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>Xn | Triple to Million</title>
-    
+    <title>Xn | How Many Steps to $1,000,000?</title>
+    <meta name="title" content="Xn | How Many Steps to $1,000,000?">
+    <meta name="description" content="Calculate the exact growth path to $1,000,000. Reverse-engineer your wealth using the Xn exponential formula. Simple. Visual. Fast.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://multiplytomillion.vercel.app/">
+    <meta property="og:title" content="How Many Steps to $1,000,000?">
+    <meta property="og:description" content="Stop guessing. Use the Xn Math Engine to see your exact multiplication path to a million.">
+    <meta property="og:image" content="xn-exponential-growth-formula-steps-to-million-social-image.PNG">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://multiplytomillion.vercel.app/">
+    <meta property="twitter:title" content="How Many Steps to $1,000,000?">
+    <meta property="twitter:description" content="The math engine for exponential growth. See the steps.">
+    <meta property="twitter:image" content="xn-exponential-growth-formula-steps-to-million-social-image.PNG">
+
     <link rel="icon" type="image/png" href="tripletomillion-math-engine-favicon-day.PNG">
     <link rel="apple-touch-icon" href="xn-multiplytomillion-compound-wealth-calculator-app-icon-day.png.PNG">
     <link rel="manifest" href="manifest.json">
 
     <meta name="theme-color" content="#007BFF">
-
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
@@ -26,9 +39,11 @@
         
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
-        /* Smooth unified transition for everything */
+        /* Faster, smoother synchronized transition */
         body, input, .icon-btn, .result-card, .step-row, .action-btn { 
-            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease; 
+            transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
         }
 
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 24px; }
@@ -45,28 +60,24 @@
 
         .side-actions { display: flex; gap: 10px; }
 
-        /* The Rotating Toggle Button */
         .icon-btn { 
             background: var(--panel); border: 1px solid var(--border); 
             border-radius: 50%; width: 44px; height: 44px; 
             display: flex; align-items: center; justify-content: center; cursor: pointer;
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
 
+        /* High-speed spin logic */
         .icon-btn svg { 
             width: 20px; height: 20px; stroke: var(--text); stroke-width: 2; fill: none; 
             position: absolute;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease, stroke 0.4s ease;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
         }
 
-        /* Rotation Logic: Light Mode */
-        [data-theme="light"] .sun-icon { transform: rotate(90deg); opacity: 0; pointer-events: none; }
+        [data-theme="light"] .sun-icon { transform: rotate(180deg); opacity: 0; }
         [data-theme="light"] .moon-icon { transform: rotate(0deg); opacity: 1; }
-
-        /* Rotation Logic: Dark Mode */
         [data-theme="dark"] .sun-icon { transform: rotate(0deg); opacity: 1; }
-        [data-theme="dark"] .moon-icon { transform: rotate(-90deg); opacity: 0; pointer-events: none; }
+        [data-theme="dark"] .moon-icon { transform: rotate(-180deg); opacity: 0; }
 
         .title-block { margin-bottom: 32px; }
         h1 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
@@ -87,6 +98,7 @@
 
         .summary-text { font-weight: 600; font-size: 19px; margin-bottom: 16px; }
 
+        /* Exactly 10 steps height */
         .steps-container { 
             max-height: 480px; 
             overflow-y: auto; font-family: ui-monospace, monospace; 
