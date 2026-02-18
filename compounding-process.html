@@ -7,205 +7,42 @@
     <link rel="icon" href="/xn-compound-growth-multiplier-favicon.PNG" type="image/png" sizes="100x100">
     <link rel="shortcut icon" href="/xn-compound-growth-multiplier-favicon.PNG">
     <link rel="apple-touch-icon" href="xn-multiplytomillion-compound-wealth-calculator-app-icon-day.png.PNG">
-    <title>Compounding Process – The Snowball Effect</title>
-    <meta name="title" content="Compounding Process – The Snowball Effect">
-    <meta name="description" content="Learn how compounding works: your multiplier is 1 + r. See the difference between linear and exponential growth.">
-    <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://multiplytomillion.vercel.app/compounding-process">
-    <meta property="og:title" content="Compounding Process – The Snowball Effect">
-    <meta property="og:description" content="Learn how compounding works: your multiplier is 1 + r. See the difference between linear and exponential growth.">
-    <meta property="og:image" content="xn-multiplytomillion-compound-wealth-calculator-app-icon-day.png.PNG"> 
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#007BFF">
+    <title>Compounding Process | The Snowball Effect</title>
+    <meta name="description" content="Learn how compounding works. Understand the multiplier formula 1 + r and see the difference between linear and exponential growth.">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
-        /* ----- BASE STYLES (from main pages) ----- */
-        :root { 
-            --bg: #ffffff; --text: #000000; --sub: #6e6e73; --border: #e5e5e7; --panel: #f6f6f7; 
-            --btn-bg: #ffffff; --accent: #007BFF;
-        }
-        [data-theme="dark"] { 
-            --bg: #000000; --text: #ffffff; --sub: #9a9aa1; --border: #1c1c1e; --panel: #111111; 
-            --btn-bg: #000000;
-        }
-        
+        :root { --bg: #ffffff; --text: #000000; --sub: #6e6e73; --border: #e5e5e7; --panel: #f6f6f7; --accent: #007BFF; }
+        [data-theme="dark"] { --bg: #000000; --text: #ffffff; --sub: #9a9aa1; --border: #1c1c1e; --panel: #111111; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 24px; 
-            transition: background-color 0.4s ease, color 0.4s ease; 
-        }
-
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 24px; transition: 0.4s ease; }
         .container { max-width: 480px; margin: 0 auto; }
-
-        .header-top-row { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding-bottom: 20px; border-top: 4px solid var(--accent); padding-top: 15px;
-            margin-bottom: 20px; 
-        }
-
+        .header-top-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-top: 4px solid var(--accent); padding-top: 15px; margin-bottom: 20px; }
         .logo-img { width: 44px; height: 44px; object-fit: contain; }
         .side-actions { display: flex; gap: 12px; }
-
-        .icon-btn { 
-            background: var(--panel); border: 1px solid var(--border); 
-            border-radius: 50%; width: 44px; height: 44px; 
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            position: relative; overflow: hidden;
-            transition: background-color 0.4s ease, border-color 0.4s ease;
-        }
-
-        .icon-btn svg { 
-            position: absolute; width: 20px; height: 20px; 
-            stroke: var(--text); stroke-width: 2; fill: none;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease, stroke 0.4s ease;
-        }
-        
-        [data-theme="light"] .moon-icon { opacity: 1; transform: rotate(0); }
+        .icon-btn { background: var(--panel); border: 1px solid var(--border); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; overflow: hidden; transition: 0.4s ease; }
+        .icon-btn svg { position: absolute; width: 20px; height: 20px; stroke: var(--text); stroke-width: 2; fill: none; transition: 0.4s ease; }
         [data-theme="light"] .sun-icon { opacity: 0; transform: rotate(90deg); }
         [data-theme="dark"] .moon-icon { opacity: 0; transform: rotate(-90deg); }
-        [data-theme="dark"] .sun-icon { opacity: 1; transform: rotate(0); }
-
         .title-block { margin-bottom: 32px; }
-        h1 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
-        .subline { color: var(--sub); font-size: 15px; margin-top: 4px; transition: color 0.4s ease; }
-
-        input { 
-            width: 100%; padding: 16px; border-radius: 14px; border: 1px solid var(--border); 
-            background: var(--panel); color: var(--text); font-size: 16px; outline: none; margin-bottom: 20px;
-            transition: border-color 0.3s ease, background-color 0.4s ease, color 0.4s ease;
-        }
-        input:focus { border-color: var(--accent); }
-
-        .result-card { 
-            background: var(--panel); border-radius: 20px; padding: 24px; 
-            margin-top: 24px; border: 1px solid var(--border); display: none;
-            transition: background-color 0.4s ease, border-color 0.4s ease;
-        }
-
-        .summary-text { font-weight: 600; font-size: 19px; margin-bottom: 16px; }
-
-        .steps-container { 
-            max-height: 280px; overflow-y: auto; font-family: ui-monospace, monospace; 
-            font-size: 14px; border-top: 1px solid var(--border); padding-top: 16px;
-            transition: border-color 0.4s ease;
-        }
-
-        .step-row { padding: 8px 0; color: var(--sub); border-bottom: 1px solid var(--border); transition: color 0.4s ease, border-color 0.4s ease; }
-        
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
-        
-        .action-btn { 
-            background: var(--btn-bg); border: 1px solid var(--border); 
-            padding: 14px; border-radius: 12px; color: var(--text); 
-            font-size: 14px; font-weight: 600; cursor: pointer;
-            transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
-        }
-
-        .action-btn.success { 
-            background-color: var(--accent) !important; 
-            color: #ffffff !important; 
-            border-color: var(--accent) !important;
-        }
-
-        .answer-block {
-            margin-top: 16px;
-            font-size: 14px;
-            color: var(--sub);
-            line-height: 1.6;
-            display: none;
-            transition: color 0.4s ease;
-        }
-        .content-section {
-            margin-top: 40px;
-            padding-top: 24px;
-            border-top: 1px solid var(--border);
-            transition: border-color 0.4s ease;
-        }
-        .content-section h2 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            letter-spacing: -0.01em;
-        }
-        .content-section p {
-            font-size: 14px;
-            color: var(--sub);
-            line-height: 1.7;
-            transition: color 0.4s ease;
-        }
-        .formula-block {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
-            font-family: ui-monospace, monospace;
-            font-size: 13px;
-            color: var(--sub);
-            line-height: 1.9;
-            margin-top: 16px;
-            transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
-        }
-        .truncation-note {
-            margin-top: 12px;
-            font-size: 13px;
-            color: var(--sub);
-            font-style: italic;
-            text-align: center;
-            display: none;
-        }
-        .related-section {
-            margin-top: 32px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-        }
-        .related-link {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 30px;
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text);
-            text-decoration: none;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-        .related-link:hover {
-            border-color: var(--accent);
-        }
-
-        /* ----- GRAPH STYLES (specific to this page) ----- */
-        .graph-container {
-            margin-top: 24px;
-            background: var(--panel);
-            border-radius: 12px;
-            padding: 16px;
-            border: 1px solid var(--border);
-        }
-        .graph-svg {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        .graph-line {
-            fill: none;
-            stroke: var(--accent);
-            stroke-width: 2;
-        }
-        .graph-line-linear {
-            stroke: var(--sub);
-            stroke-dasharray: 4;
-        }
+        h1 { font-size: 26px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+        .subline { color: var(--sub); font-size: 15px; margin-top: 4px; }
+        .content-section { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
+        .content-section h2 { font-size: 18px; margin-bottom: 12px; font-weight: 600; }
+        .content-section p { font-size: 14px; color: var(--sub); line-height: 1.7; margin-bottom: 16px; }
+        .formula-block { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px; font-family: ui-monospace, monospace; font-size: 13px; color: var(--text); line-height: 1.6; margin: 16px 0; }
+        .example-card { border-left: 4px solid var(--accent); background: var(--panel); padding: 16px; border-radius: 0 12px 12px 0; font-size: 14px; line-height: 1.8; }
+        .graph-container { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin: 24px 0; text-align: center; }
+        .graph-svg { width: 100%; height: auto; }
+        .related-section { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .related-link { background: var(--panel); border: 1px solid var(--border); border-radius: 30px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--text); text-decoration: none; transition: 0.3s; }
+        .related-link:hover { border-color: var(--accent); }
     </style>
 </head>
 <body data-theme="dark">
     <div class="container">
-        <!-- Header (identical to other pages) -->
         <div class="header-top-row">
             <img src="xn-math-engine-logo.png" alt="Logo" class="logo-img">
             <div class="side-actions">
@@ -220,62 +57,57 @@
         </div>
 
         <div class="title-block">
-            <h1>Compounding Process – The Snowball Effect</h1>
-            <p class="subline">Your multiplier is 1 + r. See how your money snowballs.</p>
+            <h1>Compounding Process</h1>
+            <p class="subline">The mechanics of the snowball effect.</p>
         </div>
 
-        <!-- Educational content -->
-        <div class="content-section">
-            <h2>How Compounding Works</h2>
-            <p>If you earn interest at rate <strong>r</strong> per period, your multiplier is <strong>1 + r</strong>. For example, 5% annual growth means you multiply by 1.05 each year.</p>
-            <div class="formula-block">
-                <strong>Compound Interest Formula:</strong> A = P × (1 + r)ⁿ<br>
-                Where P = principal, r = rate per period, n = number of periods.
-            </div>
-        </div>
-
-        <!-- Animated Graph: Linear vs Exponential -->
         <section class="content-section">
-            <h2>Linear vs Exponential Growth</h2>
-            <p>The graph below compares a linear investment (fixed $500/year) with a compounding investment (5% annual return) starting from $1,000 over 30 years.</p>
-            <div class="graph-container">
-                <svg class="graph-svg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet">
-                    <!-- Axes -->
-                    <line x1="40" y1="180" x2="360" y2="180" stroke="var(--border)" stroke-width="1"/>
-                    <line x1="40" y1="180" x2="40" y2="20" stroke="var(--border)" stroke-width="1"/>
-                    <!-- Linear line (fixed yearly addition) -->
-                    <polyline points="40,160 120,140 200,120 280,100 360,80" class="graph-line graph-line-linear" stroke="var(--sub)" stroke-dasharray="4"/>
-                    <!-- Exponential line (compounding) -->
-                    <polyline points="40,160 120,130 200,90 280,40 360,10" class="graph-line" stroke="var(--accent)"/>
-                    <!-- Labels (simplified) -->
-                    <text x="20" y="20" fill="var(--text)" font-size="8">Value</text>
-                    <text x="360" y="195" fill="var(--text)" font-size="8">Time</text>
-                </svg>
-                <p style="margin-top:8px; font-size:13px; color:var(--sub);">Dashed: Linear | Solid: Compounding (5%)</p>
+            <h2>The Multiplier Logic</h2>
+            <p>Compounding occurs when you earn a return on both your initial principal and the accumulated interest from previous periods. In mathematical terms, your multiplier is defined as 1 + r.</p>
+            <div class="formula-block">
+                <strong>Growth Formula:</strong><br>
+                A = P(1 + r)ⁿ<br><br>
+                P = Starting Amount<br>
+                r = Rate of Growth<br>
+                n = Number of Steps
             </div>
-            <p>Compounding starts slow but eventually outpaces linear growth – the "snowball effect".</p>
         </section>
 
-        <!-- Internal linking loop (no emojis) -->
+        <section class="content-section">
+            <h2>Linear vs Exponential</h2>
+            <p>Linear growth adds a fixed amount, while exponential growth scales the entire total. Over time, the gap between the two becomes massive.</p>
+            <div class="graph-container">
+                <svg class="graph-svg" viewBox="0 0 400 200">
+                    <line x1="40" y1="180" x2="360" y2="180" stroke="var(--border)" stroke-width="1"/>
+                    <line x1="40" y1="180" x2="40" y2="20" stroke="var(--border)" stroke-width="1"/>
+                    <line x1="40" y1="160" x2="360" y2="80" stroke="var(--sub)" stroke-width="2" stroke-dasharray="4"/>
+                    <path d="M 40 160 Q 200 150 360 20" fill="none" stroke="var(--accent)" stroke-width="2.5" />
+                </svg>
+                <p style="margin-top:12px; font-size:12px; color:var(--sub);">Dashed: Linear | Solid: Compounding</p>
+            </div>
+            <div class="example-card">
+                <strong>Example: $1,000 at 5%</strong><br>
+                Step 1: $1,000 × 1.05 = $1,050<br>
+                Step 2: $1,050 × 1.05 = $1,102.50<br>
+                Step 10: $1,000 × 1.05¹⁰ = $1,628.89
+            </div>
+        </section>
+
         <div class="related-section">
-            <a href="/double-to-million" class="related-link">Double</a>
-            <a href="/triple-to-million" class="related-link">Triple</a>
-            <a href="/quadruple-to-million" class="related-link">Quadruple</a>
-            <a href="/compounding-process" class="related-link">Compounding</a>
-            <a href="/exponential-growth-path" class="related-link">Exponential</a>
-            <a href="/" class="related-link">Custom Multiplier</a>
+            <a href="/double-to-million" class="related-link">Doubling</a>
+            <a href="/triple-to-million" class="related-link">Tripling</a>
+            <a href="/quadruple-to-million" class="related-link">Quadrupling</a>
+            <a href="/exponential-growth-path" class="related-link">Growth Path</a>
+            <a href="/" class="related-link">Calculator</a>
         </div>
     </div>
 
     <script>
-        // Theme toggle (same as main pages)
         const themeBtn = document.getElementById('theme-btn');
-        if (themeBtn) {
-            themeBtn.onclick = () => {
-                const t = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-                document.body.setAttribute('data-theme', t);
-            };
-        }
+        themeBtn.onclick = () => {
+            const t = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', t);
+        };
     </script>
 </body>
 </html>
