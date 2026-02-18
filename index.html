@@ -144,6 +144,12 @@
         const cleanNum = (s) => { const num = parseFloat(s.toString().replace(/[^0-9.-]+/g, "")); return isFinite(num) ? num : 0; };
         const fmt = (n) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n);
 
+        // Format on focus out
+        function formatInput(e) {
+            const val = cleanNum(e.target.value);
+            if (val > 0) e.target.value = fmt(val);
+        }
+
         function calculate() {
             let cur = cleanNum(startInp.value), m = parseFloat(multInp.value) || 0, goal = cleanNum(targetInp.value);
             if (cur <= 0 || m <= 1 || goal <= cur) { resCard.style.display = 'none'; answerBlock.style.display = 'none'; return; }
@@ -161,6 +167,13 @@
             answerBlock.textContent = `At a multiplier of ${m}, it takes ${count} steps to exceed your target.`;
         }
 
+        // Add event listeners for formatting and calculation
+        [startInp, targetInp].forEach(el => {
+            el.addEventListener('blur', formatInput);
+            el.addEventListener('input', calculate);
+        });
+        multInp.addEventListener('input', calculate);
+
         function copyResults() {
             const text = `${summaryEl.innerText}\n\n` + Array.from(stepsEl.querySelectorAll('.step-row')).map(r => r.innerText).join('\n');
             navigator.clipboard.writeText(text).then(() => {
@@ -175,7 +188,6 @@
             try { if (navigator.share) await navigator.share(data); else copyResults(); } catch (e) {}
         }
 
-        [startInp, targetInp, multInp].forEach(el => el.addEventListener('input', calculate));
         themeBtn.onclick = () => {
             const t = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
             document.body.setAttribute('data-theme', t);
