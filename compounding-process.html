@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <link rel="canonical" href="https://multiplytomillion.vercel.app/compounding-process">
+    <link rel="icon" href="/xn-compound-growth-multiplier-favicon.PNG" type="image/png" sizes="100x100">
+    <link rel="shortcut icon" href="/xn-compound-growth-multiplier-favicon.PNG">
+    <link rel="apple-touch-icon" href="xn-multiplytomillion-compound-wealth-calculator-app-icon-day.png.PNG">
+    <title>Compounding Process – The Snowball Effect</title>
+    <meta name="title" content="Compounding Process – The Snowball Effect">
+    <meta name="description" content="Learn how compounding works: your multiplier is 1 + r. See the difference between linear and exponential growth.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://multiplytomillion.vercel.app/compounding-process">
+    <meta property="og:title" content="Compounding Process – The Snowball Effect">
+    <meta property="og:description" content="Learn how compounding works: your multiplier is 1 + r. See the difference between linear and exponential growth.">
+    <meta property="og:image" content="xn-multiplytomillion-compound-wealth-calculator-app-icon-day.png.PNG"> 
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#007BFF">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Same base styles as before, plus graph container */
+        :root { ... } /* copy from main */
+        ... (all previous styles)
+        .graph-container { margin-top: 24px; background: var(--panel); border-radius: 12px; padding: 16px; border: 1px solid var(--border); }
+        .graph-svg { width: 100%; height: auto; display: block; }
+        .graph-line { fill: none; stroke: var(--accent); stroke-width: 2; }
+        .graph-line-linear { stroke: var(--sub); stroke-dasharray: 4; }
+    </style>
+</head>
+<body data-theme="dark">
+    <div class="container">
+        <div class="header-top-row">...</div>
+
+        <div class="title-block">
+            <h1>Compounding Process – The Snowball Effect</h1>
+            <p class="subline">Your multiplier is 1 + r. See how your money snowballs.</p>
+        </div>
+
+        <!-- Optional: allow user to input rate? For simplicity, we show fixed example -->
+        <div class="content-section">
+            <h2>💰 How Compounding Works</h2>
+            <p>If you earn interest at rate <strong>r</strong> per period, your multiplier is <strong>1 + r</strong>. For example, 5% annual growth means you multiply by 1.05 each year.</p>
+            <div class="formula-block">
+                <strong>Compound Interest Formula:</strong> A = P × (1 + r)ⁿ<br>
+                Where P = principal, r = rate per period, n = number of periods.
+            </div>
+        </div>
+
+        <!-- Animated Graph: Linear vs Exponential -->
+        <section class="content-section">
+            <h2>📈 Linear vs Exponential Growth</h2>
+            <p>The graph below compares a linear investment (fixed $500/year) with a compounding investment (5% annual return) starting from $1,000 over 30 years.</p>
+            <div class="graph-container">
+                <svg class="graph-svg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet">
+                    <!-- Axes -->
+                    <line x1="40" y1="180" x2="360" y2="180" stroke="var(--border)" stroke-width="1"/>
+                    <line x1="40" y1="180" x2="40" y2="20" stroke="var(--border)" stroke-width="1"/>
+                    <!-- Linear line (fixed yearly addition) -->
+                    <polyline points="40,160 120,140 200,120 280,100 360,80" class="graph-line graph-line-linear" stroke="var(--sub)" stroke-dasharray="4"/>
+                    <!-- Exponential line (compounding) -->
+                    <polyline points="40,160 120,130 200,90 280,40 360,10" class="graph-line" stroke="var(--accent)"/>
+                    <!-- Labels (simplified) -->
+                    <text x="20" y="20" fill="var(--text)" font-size="8">Value</text>
+                    <text x="360" y="195" fill="var(--text)" font-size="8">Time</text>
+                </svg>
+                <p style="margin-top:8px; font-size:13px; color:var(--sub);">Dashed: Linear | Solid: Compounding (5%)</p>
+            </div>
+            <p>Compounding starts slow but eventually outpaces linear growth – the "snowball effect".</p>
+        </section>
+
+        <!-- Internal linking loop -->
+        <div class="related-section">
+            <a href="/double-to-million" class="related-link">📈 Double</a>
+            <a href="/triple-to-million" class="related-link">🚀 Triple</a>
+            <a href="/quadruple-to-million" class="related-link">⚡ Quadruple</a>
+            <a href="/compounding-process" class="related-link">💰 Compounding</a>
+            <a href="/exponential-growth-path" class="related-link">📊 Exponential</a>
+            <a href="/" class="related-link">🔢 Custom Multiplier</a>
+        </div>
+    </div>
+
+    <script>
+        // Minimal JavaScript for theme toggle if needed (same as main)
+        const themeBtn = document.getElementById('theme-btn');
+        themeBtn.onclick = () => {
+            const t = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            document.body.setAttribute('data-theme', t);
+        };
+    </script>
+</body>
+</html>
