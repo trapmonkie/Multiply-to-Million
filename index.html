@@ -1,15 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="apple-touch-icon" href="xn-multiplytomillion-compound-wealth-calculator-app-icon-day.png">
-    <meta name="theme-color" content="#007BFF">
-    <link rel="icon" href="tripletomillion-math-engine-favicon-day.png" media="(prefers-color-scheme: light)">
-<link rel="icon" href="tripletomillion-math-engine-favicon-night.png" media="(prefers-color-scheme: dark)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Multiply to Million</title>
+    
+    <title>Xn | Triple to Million</title>
+    <meta name="description" content="Calculate exactly how many steps it takes to reach $1,000,000. Use the Xn Exponential Growth Math Engine to map your path to wealth.">
+    <meta name="theme-color" content="#007BFF">
+
+    <link rel="icon" href="tripletomillion-math-engine-favicon-day.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" href="tripletomillion-math-engine-favicon-night.png" media="(prefers-color-scheme: dark)">
+    
+    <link rel="apple-touch-icon" href="xn-multiplytomillion-compound-wealth-calculator-app-icon-day.png">
     <link rel="manifest" href="manifest.json">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://multiply-to-million.vercel.app/">
+    <meta property="og:title" content="Xn: Exponential Growth & Compound Wealth Math Engine">
+    <meta property="og:description" content="How Many Steps to Reach $1 Million? Use our Multiplier Progress Calculator to see your exact path to any financial goal.">
+    <meta property="og:image" content="xn-exponential-growth-formula-steps-to-million-social-image.PNG">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Xn | Triple to Million">
+    <meta name="twitter:description" content="Enter your starting value and multiplier. See the exact steps to $1M. Simple. Fast. Exponential.">
+    <meta name="twitter:image" content="xn-exponential-growth-formula-steps-to-million-social-image.PNG">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <style>
         :root { 
             --bg: #ffffff; --text: #000000; --sub: #6e6e73; --border: #e5e5e7; --panel: #f6f6f7; 
@@ -91,16 +108,16 @@
     <div class="container">
         <div class="header">
             <div>
-                <h1>How Many Steps to Reach $1,000,000?</h1>
+                <h1>Xn: How Many Steps to $1,000,000?</h1>
                 <p class="subline">Calculate exact growth multiplications.</p>
             </div>
             <div class="side-actions">
-                <div class="icon-btn" id="theme-btn">
+                <div class="icon-btn" id="theme-btn" title="Toggle Theme">
                     <svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                     <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
                 </div>
-                <div class="icon-btn" onclick="alert('Tap the Share icon and select Add to Home Screen.')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <div class="icon-btn" onclick="alert('Tap the Share icon and select Add to Home Screen.')" title="Install App">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                 </div>
             </div>
         </div>
@@ -129,7 +146,9 @@
               themeBtn = document.getElementById('theme-btn'),
               copyBtn = document.getElementById('copy-btn');
 
-        document.body.setAttribute('data-theme', localStorage.getItem('calculator-theme') || 'light');
+        // Set initial theme
+        const savedTheme = localStorage.getItem('calculator-theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
 
         themeBtn.onclick = () => {
             const current = document.body.getAttribute('data-theme');
@@ -138,18 +157,29 @@
             localStorage.setItem('calculator-theme', target);
         };
 
-        const cleanNum = (s) => parseFloat(s.replace(/[^0-9.-]+/g, "")) || 0;
+        const cleanNum = (s) => parseFloat(s.toString().replace(/[^0-9.-]+/g, "")) || 0;
         const fmt = (n) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n);
 
         function calculate() {
-            let cur = cleanNum(startInp.value), m = parseFloat(multInp.value) || 0, goal = cleanNum(targetInp.value);
-            if (cur <= 0 || m <= 1 || goal <= cur) { resCard.style.display = 'none'; return; }
+            let cur = cleanNum(startInp.value), 
+                m = parseFloat(multInp.value) || 0, 
+                goal = cleanNum(targetInp.value);
+            
+            if (cur <= 0 || m <= 1 || goal <= cur) { 
+                resCard.style.display = 'none'; 
+                return; 
+            }
+            
             resCard.style.display = 'block';
             let count = 0, out = "";
-            while (cur < goal && count < 200) {
-                let next = cur * m; count++;
+            let safety = 0;
+            
+            while (cur < goal && safety < 200) {
+                let next = cur * m; 
+                count++;
                 out += `<div class="step-row"><b>Step ${count}:</b> ${fmt(cur)} × ${m} = ${fmt(next)}</div>`;
                 cur = next;
+                safety++;
             }
             summaryEl.innerText = `${count} steps to exceed ${fmt(goal)}`;
             stepsEl.innerHTML = out;
@@ -170,8 +200,14 @@
 
         function shareResults() {
             if (navigator.share) {
-                navigator.share({ title: 'Results', text: summaryEl.innerText, url: window.location.href });
-            } else { copyResults(); }
+                navigator.share({ 
+                    title: 'Xn Results', 
+                    text: summaryEl.innerText, 
+                    url: window.location.href 
+                });
+            } else { 
+                copyResults(); 
+            }
         }
 
         [startInp, targetInp].forEach(el => {
@@ -179,6 +215,8 @@
             el.addEventListener('input', calculate);
         });
         multInp.oninput = calculate;
+        
+        // Prevents ghost clicks on mobile
         document.addEventListener("touchstart", function() {}, true);
     </script>
 </body>
