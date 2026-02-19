@@ -59,25 +59,30 @@
         .graph-container { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; margin-top: 16px; overflow: hidden; }
         .graph-svg { width: 100%; height: auto; max-height: 200px; }
         
-        /* Path Animation Logic */
-        .graph-line { fill: none; stroke-width: 2.5; stroke-dasharray: 1000; stroke-dashoffset: 1000; }
-        .graph-line.animate { animation: drawLine 2.5s ease-out forwards; }
+        .graph-line { fill: none; stroke-width: 2.5; stroke-dasharray: 600; stroke-dashoffset: 600; transition: stroke 0.3s; }
+        .graph-line.animate { animation-fill-mode: forwards; animation-timing-function: ease-in-out; }
+        
         @keyframes drawLine { to { stroke-dashoffset: 0; } }
+
+        /* Unique speeds for different growth rates */
+        .line-slow.animate { animation: drawLine 2.8s forwards; }
+        .line-med.animate { animation: drawLine 2.0s forwards; }
+        .line-fast.animate { animation: drawLine 1.3s forwards; }
 
         .formula-block { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px; font-family: ui-monospace, monospace; font-size: 13px; color: var(--sub); line-height: 1.8; margin: 20px 0; }
 
-        /* Rule of Thumb Styling */
-        .rule-thumb-title { color: var(--accent); font-weight: 600; margin-top: 30px; font-size: 18px; }
+        /* Rule of Thumb Styling (Blue) */
+        .rule-thumb-title { color: var(--accent); font-weight: 600; margin-top: 30px; font-size: 18px; margin-bottom: 8px; }
         .faq-item { border-bottom: 1px solid var(--border); padding: 12px 0; }
         .faq-item summary { list-style: none; cursor: pointer; font-size: 14px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; }
         .faq-item summary::after { content: '+'; color: var(--accent); font-size: 18px; }
         .faq-item[open] summary::after { content: '−'; }
         .faq-item p { margin-top: 10px; font-size: 13px; color: var(--sub); }
 
-        /* Related Links Pills */
+        /* Related Links Pills - Blue/White on click */
         .related-section { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; }
         .related-link { background: var(--panel); border: 1px solid var(--border); border-radius: 30px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--text); text-decoration: none; transition: 0.2s; }
-        .related-link:active, .related-link:focus { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+        .related-link:active { background: var(--accent) !important; color: #ffffff !important; border-color: var(--accent) !important; }
     </style>
 </head>
 <body data-theme="dark">
@@ -115,9 +120,12 @@
                 <svg class="graph-svg" viewBox="0 0 400 200">
                     <line x1="40" y1="180" x2="360" y2="180" stroke="var(--border)"/>
                     <line x1="40" y1="180" x2="40" y2="20" stroke="var(--border)"/>
-                    <path d="M40,170 Q100,160 340,100" class="graph-line" stroke="var(--accent)" stroke-dasharray="4" id="line1"/>
-                    <path d="M40,170 Q100,130 340,40" class="graph-line" stroke="var(--accent)" id="line2"/>
-                    <path d="M40,170 Q100,80 340,5" class="graph-line" stroke="var(--accent)" stroke-dasharray="2 2" id="line3"/>
+                    
+                    <polyline points="40,170 100,150 160,120 220,80 280,40 340,10" class="graph-line line-slow" stroke="var(--accent)" stroke-dasharray="4" id="line1"/>
+                    
+                    <polyline points="40,170 100,140 160,100 220,50 280,20 340,5" class="graph-line line-med" stroke="var(--accent)" id="line2"/>
+                    
+                    <polyline points="40,170 100,130 160,70 220,20 280,5 340,2" class="graph-line line-fast" stroke="var(--accent)" stroke-dasharray="2 2" id="line3"/>
                 </svg>
                 <p style="margin-top:12px; font-size:13px; color:var(--sub);">Dashed: 2ⁿ | Solid: 3ⁿ | Dotted: 4ⁿ</p>
             </div>
@@ -147,12 +155,12 @@
 
             <details class="faq-item">
                 <summary>To Quadruple, the base is 4 (4ⁿ)</summary>
-                <p>A 4x multiplier accelerates growth much faster, represented by the base-4 exponential function.</p>
+                <p>A 4x multiplier accelerates growth significantly faster than 2x or 3x, represented by the base-4 exponential function.</p>
             </details>
 
             <details class="faq-item">
                 <summary>Xⁿ = X is the base</summary>
-                <p>In algebra, the base (X) is the number being multiplied, and the exponent (n) is the count of steps.</p>
+                <p>In algebra, the base (X) is the number being multiplied, and the exponent (n) represents the count of steps or multiplications.</p>
             </details>
         </section>
     </div>
@@ -183,14 +191,14 @@
         [startInp, targetInp, multInp].forEach(el => el.addEventListener('input', calculate));
         [startInp, targetInp].forEach(el => el.addEventListener('blur', (e) => { e.target.value = fmt(cleanNum(e.target.value)); }));
 
-        // Intersection Observer for Graph Animation
+        // Intersection Observer to trigger graph animation when scrolled into view
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     document.querySelectorAll('.graph-line').forEach(line => line.classList.add('animate'));
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.2 });
         observer.observe(document.getElementById('graph-section'));
 
         function copyResults() {
