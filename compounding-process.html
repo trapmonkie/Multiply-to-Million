@@ -62,8 +62,22 @@
         .formula-details li { margin-bottom: 12px; line-height: 1.5; }
         .formula-details strong { color: var(--text); }
         .answer-block { margin-top: 24px; padding: 20px; background: var(--panel); border-radius: 14px; border-left: 4px solid var(--accent); font-size: 15px; line-height: 1.6; }
-        .graph-container { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin: 24px 0; text-align: center; }
+        
+        /* Graph & Animation Styling */
+        .graph-container { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin: 24px 0; text-align: center; overflow: hidden; }
         .graph-svg { width: 100%; height: auto; }
+        
+        .anim-line { stroke-dasharray: 400; stroke-dashoffset: 400; }
+        
+        /* Dashed Linear: Constant speed */
+        .line-linear { animation: drawLinear 3.5s linear forwards; }
+        
+        /* Solid Compounding: Slow start, smooth build-up of momentum */
+        .line-compound { animation: drawCompound 4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+        @keyframes drawLinear { to { stroke-dashoffset: 0; } }
+        @keyframes drawCompound { to { stroke-dashoffset: 0; } }
+
         .related-section { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
         .related-link { background: var(--panel); border: 1px solid var(--border); border-radius: 30px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--text); text-decoration: none; transition: 0.3s; }
         .related-link:hover { border-color: var(--accent); }
@@ -114,18 +128,15 @@
             <h2>Linear vs Exponential</h2>
             <p><strong>Linear Growth:</strong> You earn interest only on the original principal.<br>
             <strong>Compound Growth:</strong> You earn "interest on interest".</p>
-            
-            
-
-[Image of compound interest vs simple interest graph]
-
 
             <div class="graph-container">
                 <svg class="graph-svg" viewBox="0 0 400 200">
                     <line x1="40" y1="180" x2="360" y2="180" stroke="var(--border)" stroke-width="1"/>
                     <line x1="40" y1="180" x2="40" y2="20" stroke="var(--border)" stroke-width="1"/>
-                    <line x1="40" y1="160" x2="360" y2="80" stroke="var(--sub)" stroke-width="2" stroke-dasharray="4"/>
-                    <path d="M 40 160 Q 200 150 360 20" fill="none" stroke="var(--accent)" stroke-width="2.5" />
+                    
+                    <line x1="40" y1="160" x2="360" y2="80" stroke="var(--sub)" stroke-width="2" stroke-dasharray="4" class="anim-line line-linear"/>
+                    
+                    <path d="M 40 160 Q 200 150 360 20" fill="none" stroke="var(--accent)" stroke-width="2.5" class="anim-line line-compound" />
                 </svg>
                 <p style="margin-top:12px; font-size:12px; color:var(--sub);">Dashed: Linear | Solid: Compounding</p>
             </div>
