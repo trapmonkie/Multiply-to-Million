@@ -75,17 +75,20 @@
         .step-row { padding: 8px 0; color: var(--sub); border-bottom: 1px solid var(--border); }
         .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
         .action-btn { background: var(--btn-bg); border: 1px solid var(--border); padding: 14px; border-radius: 12px; color: var(--text); font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        
+        /* Copy Button Click Style (for reference) */
         .action-btn.success { background-color: var(--accent) !important; color: #fff !important; border-color: var(--accent) !important; }
         
-        /* Graph Styling */
+        /* Content Sections */
         .content-section { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border); }
         .content-section h2 { font-size: 18px; margin-bottom: 16px; font-weight: 600; }
         .rule-thumb-title { color: var(--accent); font-size: 18px; margin-bottom: 16px; font-weight: 600; }
         .content-section p { font-size: 14px; color: var(--sub); line-height: 1.7; margin-bottom: 12px; }
+        
+        /* Graph Styling */
         .graph-container { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; margin-top: 16px; overflow: hidden; }
         .graph-svg { width: 100%; height: auto; max-height: 200px; }
         .graph-line { fill: none; stroke-width: 2.5; transition: 0.3s; }
-
         @keyframes riseUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .animate-rise { animation: riseUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; transform-origin: bottom; }
 
@@ -98,14 +101,26 @@
         .rule-item[open] summary::after { content: '−'; }
         .rule-item p { margin-top: 10px; font-size: 13px; color: var(--sub); }
 
-        /* UI-CONSISTENT BUTTONS: Turns Blue with White text on Click/Hover */
+        /* FIXED: Navigation Buttons UI - Matching Copy Button Behavior */
         .related-section { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .related-link { background: var(--panel); border: 1px solid var(--border); border-radius: 30px; padding: 8px 16px; font-size: 13px; font-weight: 500; color: var(--text); text-decoration: none; transition: 0.3s ease; border: 1px solid var(--border); }
-        
-        .related-link:hover, .related-link:active, .related-link:focus { 
+        .related-link { 
+            background: var(--panel); 
+            border: 1px solid var(--border); 
+            border-radius: 30px; 
+            padding: 8px 16px; 
+            font-size: 13px; 
+            font-weight: 500; 
+            color: var(--text); 
+            text-decoration: none; 
+            transition: background-color 0.1s; 
+        }
+
+        /* Active State: Turning Solid Blue/White exactly like the Copy Button */
+        .related-link:active, .related-link:hover { 
             background-color: var(--accent) !important; 
             color: #ffffff !important; 
-            border-color: var(--accent) !important;
+            border-color: var(--accent) !important; 
+            opacity: 1 !important;
         }
         
         .answer-block { margin-top: 16px; font-size: 14px; color: var(--sub); line-height: 1.6; display: none; }
